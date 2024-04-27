@@ -35,7 +35,7 @@ body {
 }
 
 .quote-container {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(50, 0, 10, 0.7);
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
