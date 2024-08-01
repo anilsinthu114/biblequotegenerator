@@ -7,7 +7,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   background-image: url('https://tse1.mm.bing.net/th?id=OIP.DKqi9ybvKNcxEl7KMWX_kAHaE8&pid=Api&rs=1&c=1&qlt=95&w=144&h=96');
-  background-size: center;
+  background-size: cover;
     background-repeat: no-repeat;
 /*   transition: opacity 0.5s ease-in; */
 }
