@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button';
+import { motion, AnimatePresence } from 'framer-motion'; // For animation
 
-const quotes = [
+const verses = [
     "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. - Philippians 4:6",
     "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
     "Trust in the Lord with all your heart, and do not lean on your own understanding. - Proverbs 3:5",
@@ -30,7 +31,7 @@ const quotes = [
     "The Lord is my light and my salvation; whom shall I fear? The Lord is the stronghold of my life; of whom shall I be afraid? - Psalm 27:1",
     "I have said these things to you, that in me you may have peace. In the world you will have tribulation. But take heart; I have overcome the world. - John 16:33",
     "But as for you, be strong and do not give up, for your work will be rewarded. - 2 Chronicles 15:7",
-    "Therefore encourage one another and build one another up, just as you are doing. - 1 Thessalonians 5:11",
+    "Therefore, encourage one another and build one another up, just as you are doing. - 1 Thessalonians 5:11",
     "The Lord is near to the brokenhearted and saves the crushed in spirit. - Psalm 34:18",
     "In all your ways acknowledge him, and he will make straight your paths. - Proverbs 3:6",
     "For the word of God is living and active, sharper than any two-edged sword, piercing to the division of soul and of spirit, of joints and of marrow, and discerning the thoughts and intentions of the heart. - Hebrews 4:12",
@@ -51,32 +52,67 @@ const quotes = [
     "But you, O Lord, are a God merciful and gracious, slow to anger and abounding in steadfast love and faithfulness. - Psalm 86:15",
     "For the Lord is good; his steadfast love endures forever, and his faithfulness to all generations. - Psalm 100:5",
     "And without faith it is impossible to please him, for whoever would draw near to God must believe that he exists and that he rewards those who seek him. - Hebrews 11:6",
-    "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.' Therefore I will boast all the more gladly of my weaknesses, so that the power of Christ may rest upon me. - 2 Corinthians 12:9"
+    "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.' Therefore, I will boast all the more gladly of my weaknesses, so that the power of Christ may rest upon me. - 2 Corinthians 12:9"
 ];
 
-const RandomQuoteGenerator = () => {
-    const [quote, setQuote] = useState('');
-
-    const generateRandomQuote = () => {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        setQuote(quotes[randomIndex]);
-    };
-
-    return (
-        <div className='container'>
-        <div className='verse'>
-            <h1 className='grad'>Inspiring Bible  Quotes </h1>
-            
-            <div className='quote'>
-                {quote && <p>{quote}</p>}
-            </div>
-           
-            <Button  className="button" variant="primary" onClick={generateRandomQuote}>Next Quote</Button>
-
-         </div>
-        </div>
-
-    );
+// Fisher-Yates Shuffle
+const shuffleArray = (array) => {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 };
 
-export default RandomQuoteGenerator;
+const RandomVerseGenerator = () => {
+  const [shuffledVerses, setShuffledVerses] = useState([]);
+  const [verseIndex, setVerseIndex] = useState(0);
+  const [verse, setVerse] = useState('');
+
+  // Shuffle verses on mount
+  useEffect(() => {
+    const newVerses = shuffleArray(verses);
+    setShuffledVerses(newVerses);
+    setVerse(newVerses[0]);
+    setVerseIndex(1);
+  }, []);
+
+  const generateNewVerse = () => {
+    if (verseIndex >= shuffledVerses.length) {
+      const reshuffled = shuffleArray(verses);
+      setShuffledVerses(reshuffled);
+      setVerse(reshuffled[0]);
+      setVerseIndex(1);
+    } else {
+      setVerse(shuffledVerses[verseIndex]);
+      setVerseIndex((prev) => prev + 1);
+    }
+  };
+
+  return (
+    <div className="container">
+      <div className="verse-box">
+        <h1 className="title grad">Verse of Hope</h1>
+        <div className="verse-text">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={verse}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.6 }}
+            >
+              {verse}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+        <Button className="button mt-3" variant="primary" onClick={generateNewVerse}>
+          Generate Verse
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default RandomVerseGenerator;
