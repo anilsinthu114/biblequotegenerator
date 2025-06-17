@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from "@vercel/analytics/react"
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import FavoritesPage from './components/FavoritesPage';
