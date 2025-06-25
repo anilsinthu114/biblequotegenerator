@@ -34,7 +34,7 @@ const VerseBox = ({
       </AnimatePresence>
     </div>
     <div
-      className={`text-end fst-italic fw-semibold mb-3 ${darkMode ? 'text-white' : 'text-white'}`}
+      className={`text-end fst-italic fw-semibold mb-3 ${darkMode ? 'text-white' : 'text-black'}`}
     >
       — {reference}
     </div>

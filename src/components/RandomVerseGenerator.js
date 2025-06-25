@@ -116,7 +116,27 @@ const RandomVerseGenerator = ({ darkMode, toggleDarkMode }) => {
 
   const speakVerse = () => {
     stopSpeaking();
-    const utterance = new SpeechSynthesisUtterance(translatedVerse);
+    // Extract book, chapter, and verse for custom reference
+    let book = '', chapter = '', verseNum = '';
+    const ref = reference;
+    // Example reference: "Philippians 4:6"
+    const match = ref.match(/^(.+?)\s+(\d+):(\d+)$/);
+    if (match) {
+      book = match[1];
+      chapter = match[2];
+      verseNum = match[3];
+    } else {
+      // fallback to original reference if parsing fails
+      book = ref;
+    }
+    let customReference = '';
+    if (book && chapter && verseNum) {
+      customReference = `Referenced from ${book} ${chapter}th chapter, ${verseNum}th verse`;
+    } else if (ref) {
+      customReference = `Reference: ${ref}`;
+    }
+    const textToSpeak = `${translatedVerse} ${customReference}`;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.lang = language;
     utterance.onend = () => setIsSpeaking(false);
     synthRef.current.speak(utterance);
@@ -159,6 +179,16 @@ const RandomVerseGenerator = ({ darkMode, toggleDarkMode }) => {
           >
             {darkMode ? '☀️' : '🌙'}
           </Button>
+          {/* <select 
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="form-select"
+            style={{ width: 'auto' }}
+          >
+            <option value="en">English</option>
+            <option value="te">Telugu</option>
+            <option value="hi">Hindi</option>
+          </select> */}
           <Link to='/favorites'>
             <Button variant='success'>View Favorites</Button>
           </Link>
