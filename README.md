@@ -7,6 +7,10 @@
 
 A React-based Bible verse generator that provides random uplifting verses, supports multi-language translation, text-to-speech, dark mode toggle, and allows saving your favorite verses.
 
+## 📌 Description
+
+**Verse of Hope** is a modern, beautifully designed Bible verse generator built with React. It delivers random uplifting verses and lets users translate them into different languages (English, Hindi, Telugu). Features include text-to-speech for spoken verses, dark/light mode toggle, and a favorites system with local storage persistence. The app is fully responsive, with smooth animations and a clean, accessible UI, making it ideal for daily inspiration on any device.
+
 ---
 
 ## 🌟 Features
@@ -67,7 +71,7 @@ npm install
 # Run the app
 npm start
 ```
-🏗️ Build for Production
+## 🏗️ Build for Production
 ```bash
 npm start 
 
